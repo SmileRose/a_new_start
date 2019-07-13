@@ -47,7 +47,7 @@
 </template>
 <script>
 import headTop from '../common/headTop'
-import { baseUrl, baseImgPath } from '@/config/env'
+// import { baseUrl, baseImgPath } from '@/config/env'
 // import { getFoods, getFoodsCount, getMenu, updateFood, deleteFood, getResturantDetail, getMenuById } from '@/api/getData'
 export default {
   data() {
@@ -114,7 +114,8 @@ export default {
 </script>
 <style lang="less" scoped>
 
-@import '../style/mixin';
+@import '../../style/mixin';
+
 .table_container{
     margin: 20px;
     border: 1px solid #e1e1e1

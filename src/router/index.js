@@ -6,11 +6,11 @@ import login from '@/components/login'
 import menu from '@/components/common/menu'
 
 import home from '@/components/pages/home'
-// import articlelist from '@/components/pages/articlelist'
-// import articleadd from '@/components/pages/articleadd'
+import articlelist from '@/components/pages/articlelist'
+import articleadd from '@/components/pages/articleadd'
 
 
-// import memuset from '@/components/pages/memuset'
+import memuset from '@/components/pages/memuset'
 // import menuadd from '@/components/pages/menuadd'
 
 // import menuimage from '@/components/pages/menuimage'
@@ -41,20 +41,22 @@ export default new Router({
             component: home,
             meta: [],
         },
+        {
+            path: '/articlelist',
+            component: articlelist,
+            meta: ['内容管理', '文章列表'],
+        },
+        {
+            path: '/articleadd',
+            component: articleadd,
+            meta: ['内容管理', '添加文章'],
+        },
+        {
+            path: '/memuset',
+            component: memuset,
+            meta: ['模块栏目', '栏目设置'],
+        },
         // {
-        //     path: '/articlelist',
-        //     component: articlelist,
-        //     meta: ['内容管理', '文章列表'],
-        // },{
-        //     path: '/articleadd',
-        //     component: articleadd,
-        //     meta: ['内容管理', '添加文章'],
-        // },
-        // {
-        //     path: '/memuset',
-        //     component: memuset,
-        //     meta: ['模块栏目', '栏目设置'],
-        // },{
         //     path: '/menuadd',
         //     component: menuadd,
         //     meta: ['模块栏目', '添加栏目'],

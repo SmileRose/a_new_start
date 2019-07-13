@@ -165,7 +165,7 @@
 
 <script>
     import headTop from '../common/headTop'
-    import {baseUrl, baseImgPath} from '@/config/env'
+    //import {baseUrl, baseImgPath} from '@/config/env'
     import {getFoods, getFoodsCount, getMenu, updateFood, deleteFood, getResturantDetail, getMenuById} from '@/api/getData'
     export default {
         data(){
@@ -389,7 +389,7 @@
 </script>
 
 <style lang="less">
-	@import '../style/mixin';
+	@import '../../style/mixin';
     .demo-table-expand {
         font-size: 0;
     }
