@@ -11,9 +11,10 @@ import articleadd from '@/components/pages/articleadd'
 
 
 import memuset from '@/components/pages/memuset'
+
 // import menuadd from '@/components/pages/menuadd'
 
-// import menuimage from '@/components/pages/menuimage'
+import menuimage from '@/components/pages/menuimage'
 // import website from '@/components/pages/website'
 
 
@@ -56,15 +57,16 @@ export default new Router({
             component: memuset,
             meta: ['模块栏目', '栏目设置'],
         },
+
+        {
+            path: '/menuimage',
+            component: menuimage,
+            meta: ['模块栏目', '附件管理'],
+        },
         // {
         //     path: '/menuadd',
         //     component: menuadd,
         //     meta: ['模块栏目', '添加栏目'],
-        // },
-        // {
-        //     path: '/menuimage',
-        //     component: menuimage,
-        //     meta: ['模块栏目', '文件管理'],
         // },
         // {
         //     path: '/website',

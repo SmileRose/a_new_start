@@ -13,8 +13,8 @@
 					<el-submenu index="3">
 						<template slot="title"><i class="el-icon-star-on"></i>模块栏目</template>
 						<el-menu-item index="memuset">栏目设置</el-menu-item>
-						<el-menu-item index="menuadd">添加栏目</el-menu-item>
-						<el-menu-item index="menuimage">文件管理</el-menu-item>
+					<!-- 	<el-menu-item index="menuadd">添加栏目</el-menu-item> -->
+						<el-menu-item index="menuimage">附件管理</el-menu-item>
 
 					</el-submenu>
 					<el-submenu index="4">

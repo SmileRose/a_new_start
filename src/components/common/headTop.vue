@@ -5,7 +5,7 @@
       <el-breadcrumb-item v-for="(item, index) in $route.meta" :key="index" :to="{ path: $route.path }">
       {{ item }}</el-breadcrumb-item>
     </el-breadcrumb>
-    <el-dropdown>
+    <el-dropdown trigger="click">
       <span class="el-dropdown-link">
         <el-avatar icon="el-icon-user-solid"></el-avatar>
       </span>
@@ -27,13 +27,20 @@ export default {
 }
 </script>
 <style lang="less" scope>
-
+.el-breadcrumb{
+  float:left
+}
 .el-dropdown{
   float:right
 }
 .head-top{
-  padding: 24px;
-  background:#eff2f7;
-  margin-bottom:10px
+  padding: 5px 24px;
+  background: #eff2f7;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.el-breadcrumb{
+  float: left;
+  margin: 16px 0 0;
 }
 </style>
