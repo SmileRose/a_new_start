@@ -2,35 +2,25 @@
   <div class="fillcontain">
     <head-top></head-top>
     <div class="table_container">
-      <el-table v-loading="loading" fullscreen="true" element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)" :data="items" stripe
-     style="width: 100%">
+      <el-table v-loading="loading" fullscreen="true" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="items" stripe style="width: 100%">
         <el-table-column type="selection">
         </el-table-column>
         <el-table-column fixed prop="id" label="id">
         </el-table-column>
-
         <el-table-column prop="catid" label="catid">
         </el-table-column>
-
         <el-table-column prop="title" label="标题">
         </el-table-column>
         <el-table-column prop="readnum" label="评论数">
         </el-table-column>
-
         <el-table-column prop="cnum" label="阅读量">
         </el-table-column>
-
         <el-table-column prop="keywords" label="关键字">
         </el-table-column>
-
-
         <el-table-column prop="cnum" label="点击量">
         </el-table-column>
         <el-table-column prop="username" label="发布人">
         </el-table-column>
-
         <el-table-column prop="inputtime" label="发布时间">
         </el-table-column>
         <el-table-column prop="updatetime" label="更新时间">
@@ -45,24 +35,14 @@
       </el-table>
       <!-- 分页 -->
     </div>
-    <div class="block">
-       <el-pagination
-@size-change="handleSizeChange"
-@current-change="handleCurrentChange"
-:current-page="currentPage4"
-:page-sizes="[100, 200, 300, 400]"
-:page-size="100"
-layout="total, sizes, prev, pager, next, jumper"
-:total="400">
-</el-pagination>
-    </div>
+    <!-- <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
+      </el-pagination>
+    </div> -->
   </div>
 </template>
 <script>
 import headTop from '../common/headTop'
-
-// import { Loading } from 'element-ui';
-
 export default {
   data() {
       return {
@@ -72,32 +52,20 @@ export default {
     },
     created() {
       this.getArt();
-
     },
     computed: {},
     components: {
       headTop,
     },
     methods: {
-      getArt(){
-
-        this.$axios.get('/api/users').then(res=>{
+      getArt() {
+        this.$axios.get('/api/users').then(res => {
           console.log(res)
-
-
-
-          if(res.data.status){
+          if (res.data.status) {
             this.items = res.data.data;
-
-            this.loading =false;
-
-
-
+            this.loading = false;
           }
-
-
         })
-
       },
       handleEdit(index, row) {
         console.log(index, row);

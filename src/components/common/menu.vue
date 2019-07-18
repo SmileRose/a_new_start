@@ -34,17 +34,22 @@
 				<keep-alive>
 					<router-view></router-view>
 				</keep-alive>
+				<common-footer></common-footer>
 			</el-col>
 		</el-row>
 	</div>
 </template>
 <script>
+import commonFooter from './footer'
 	export default {
 		computed: {
 			defaultActive: function(){
 				return this.$route.path.replace('/', '');
 			}
 		},
+		components:{
+			commonFooter
+		}
 	}
 </script>
 <style>
