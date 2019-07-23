@@ -61,8 +61,9 @@ export default {
       getArt() {
         this.$axios.get('/api/users').then(res => {
           console.log(res)
-          if (res.data.status) {
+          if (res.status==200) {
             this.items = res.data.data;
+            console.log(this.items)
             this.loading = false;
           }
         })
