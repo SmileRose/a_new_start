@@ -14,7 +14,6 @@
             <el-form-item label="标题" prop="title">
               <el-input v-model="ruleForm.title"></el-input>
             </el-form-item>
-
             <el-form-item label="关键字" prop="keywords">
               <el-input v-model="ruleForm.keywords"></el-input>
               <el-button @click="addKeywords('ruleForm')">增加关键字</el-button>
@@ -30,7 +29,6 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
             </el-form-item>
-
             <el-form-item label="内容" prop="content">
               <div style="height: 410px;">
                 <quill-editor v-model="ruleForm.content" ref="myQuillEditor" style="height: 300px;">
@@ -52,97 +50,131 @@
 </template>
 <script>
 import headTop from '../common/headTop'
-import { quillEditor } from 'vue-quill-editor'
+import {
+  quillEditor
+} from 'vue-quill-editor'
 import quillConfig from '../../tools/quill-config.js'
-
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
-
 export default {
   data() {
-    return {
-      quillOption: quillConfig,
-      dialogImageUrl: '',
-      dialogVisible: false,
-
-      ruleForm: {
-        catid: '',
-        title: '',
-        keywords: '',
-        description: '',
-        thumb: false,
-        content: '',
-
-
-      },
-      rules: {
-        name: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' },
-          { min: 3, max: 30, message: '长度在 3 到 30 个字符', trigger: 'blur' }
-        ],
-        title: [
-          { required: true, message: '请输入标题', trigger: 'blur' }
-        ],
-        keywords: [
-          { required: true, message: '请输入关键字', trigger: 'blur' }
-        ],
-        description: [
-          { required: true, message: '请输入介绍', trigger: 'blur' }
-        ],
-
-        // thumb: [
-        //   { required: true, message: '请选择活动资源', trigger: 'change' }
-        // ],
-        content: [
-          { required: true, message: '请输入内容', trigger: 'blur' }
-        ]
-      }
-    };
-  },
-  components: {
-    headTop,
-    quillEditor
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          let formData = this.ruleForm;
-          console.log(formData)
-          this.$axios.post('/api/add_article',formData).then(res=>{
-            console.log(res)
-
-          })
-        } else {
-          console.log('error submit!!');
-          return false;
+      return {
+        quillOption: quillConfig,
+        dialogImageUrl: '',
+        dialogVisible: false,
+        ruleForm: {
+          catid: '11',
+          title: '',
+          keywords: '',
+          description: '',
+          thumb: false,
+          content: '',
+        },
+        rules: {
+          name: [{
+            required: true,
+            message: '请输入活动名称',
+            trigger: 'blur'
+          }, {
+            min: 3,
+            max: 30,
+            message: '长度在 3 到 30 个字符',
+            trigger: 'blur'
+          }],
+          title: [{
+            required: true,
+            message: '请输入标题',
+            trigger: 'blur'
+          }],
+          keywords: [{
+            required: true,
+            message: '请输入关键字',
+            trigger: 'blur'
+          }],
+          description: [{
+            required: true,
+            message: '请输入介绍',
+            trigger: 'blur'
+          }],
+          // thumb: [
+          //   { required: true, message: '请选择活动资源', trigger: 'change' }
+          // ],
+          content: [{
+            required: true,
+            message: '请输入内容',
+            trigger: 'blur'
+          }]
         }
-      });
+      };
     },
-    addKeywords(){
+    components: {
+      headTop,
+      quillEditor
+    },
+    created: function() {
+      this.getdata();
+    },
+    methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let formData = this.ruleForm;
+            this.$axios.post('/api/add_article', formData).then(res => {
+              if (res.data.flag) {
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                });
+              }
+            })
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      getdata() {
+        var id = this.$route.query.id;
+        if (id) {
+          let param = this.$route.query;
 
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
+          this.$axios.post('/api/users', param).then(res => {
+            if (res.data.flag) {
+              var datas = res.data.data[0];
+              console.log(res.data)
+              var rules = {
+                catid: datas.catid,
+                description: datas.description,
+                keywords: datas.keywords,
+                thumb: datas.thumb,
+                title: datas.title,
+                updatetime: datas.updatetime,
+
+              }
+              console.log(rules)
+              this.ruleForm = rules
+            }
+          })
+        }
+      },
+      addKeywords() {},
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
     }
-  }
 }
-
 </script>
 <style lang="less" scoped>
 @import '../../style/mixin';
-
 .table_container {
   margin: 20px;
-
 }
-
 </style>

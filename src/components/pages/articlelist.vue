@@ -48,6 +48,7 @@ export default {
       return {
         loading: true,
         items: [],
+
       }
     },
     created() {
@@ -59,20 +60,51 @@ export default {
     },
     methods: {
       getArt() {
-        this.$axios.get('/api/users').then(res => {
-          console.log(res)
-          if (res.status==200) {
+        this.$axios.post('/api/users').then(res => {
+          if (res.data.flag) {
             this.items = res.data.data;
-            console.log(this.items)
             this.loading = false;
           }
         })
       },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
       handleDelete(index, row) {
-        console.log(index, row);
+        console.log('删除')
+        this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var param = {
+            id: row.id
+          }
+          this.$axios.post('/api/del_article', param).then(res => {
+            if (res.data.flag) {
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              })
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      handleEdit(index, row) {
+        this.$router.push({
+          path: '/articleadd',
+          query:{
+            id: row.id
+          }
+        })
+
       }
     },
 }

@@ -40,27 +40,32 @@ export default new Router({
         children: [{
             path: '/home',
             component: home,
+            name: 'home',
             meta: [],
         },
         {
             path: '/articlelist',
             component: articlelist,
+            name:'articlelist',
             meta: ['内容管理', '文章列表'],
         },
         {
             path: '/articleadd',
             component: articleadd,
+            name:'articleadd',
             meta: ['内容管理', '添加文章'],
         },
         {
             path: '/memuset',
             component: memuset,
+            name:'memuset',
             meta: ['模块栏目', '栏目设置'],
         },
 
         {
             path: '/menuimage',
             component: menuimage,
+            name:'menuimage',
             meta: ['模块栏目', '附件管理'],
         },
         // {
