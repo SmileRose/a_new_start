@@ -70,6 +70,7 @@ export default {
           description: '',
           thumb: false,
           content: '',
+          id: ''
         },
         rules: {
           name: [{
@@ -137,23 +138,25 @@ export default {
       getdata() {
         var id = this.$route.query.id;
         if (id) {
+          this.update =  true;
           let param = this.$route.query;
 
           this.$axios.post('/api/users', param).then(res => {
             if (res.data.flag) {
               var datas = res.data.data[0];
-              console.log(res.data)
-              var rules = {
+
+              var _rules = {
                 catid: datas.catid,
                 description: datas.description,
                 keywords: datas.keywords,
                 thumb: datas.thumb,
                 title: datas.title,
                 updatetime: datas.updatetime,
+                id: id
 
               }
-              console.log(rules)
-              this.ruleForm = rules
+
+              this.ruleForm = _rules
             }
           })
         }
