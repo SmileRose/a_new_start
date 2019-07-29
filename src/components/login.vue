@@ -60,6 +60,9 @@
 @import '../style/mixin';
 .login_page{
 	background-color: #324057;
+	    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 .manage_tip{
 	position: absolute;
