@@ -70,7 +70,7 @@ export default {
           description: '',
           thumb: false,
           content: '',
-          id: ''
+          id: this.$route.query.id
         },
         rules: {
           name: [{
@@ -153,7 +153,6 @@ export default {
                 title: datas.title,
                 updatetime: datas.updatetime,
                 id: id
-
               }
 
               this.ruleForm = _rules
