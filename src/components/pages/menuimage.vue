@@ -6,14 +6,13 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="aid" label="ID"></el-table-column>
         <el-table-column prop="module" label="模块名称"></el-table-column>
-
         <el-table-column prop="catid" label="栏目名称"></el-table-column>
-
         <el-table-column prop="filename" label="附件名称"></el-table-column>
         <el-table-column prop="filesize" label="附件大小"></el-table-column>
         <el-table-column prop="uploadtime" label="上传时间">
            <!--  <template slot-scope="scope">{{ scope.row.date }}</template> -->
         </el-table-column>
+        <el-table-column prop="uploadip" label="上传ip"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">预览</el-button>
@@ -21,10 +20,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <div style="margin-top: 20px">
-        <el-button @click="toggleSelection([items[1], items[2]])">切换第二、第三行的选中状态</el-button>
-        <el-button @click="toggleSelection()">取消选择</el-button>
-      </div>
     </div>
   </div>
 </template>
@@ -45,24 +40,21 @@ export default {
     },
     methods: {
         getArt() {
-          this.$axios.get('/api/menu_image').then(res => {
+          this.$axios.post('/api/menu_image').then(res => {
             if (res.data.flag) {
               this.items = res.data.data;
-              // this.loading = false;
+
             }
           })
         },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
+      handleEdit(index,rows) {
+        console.log(rows)
+        this.$alert('<img src="https://www.zhmzjl.com/uploadfile/'+ rows.filepath +'" />', rows.filename, {
+          dangerouslyUseHTMLString: true
+        });
       },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
+      handleSelectionChange(index,val) {
+        this
       }
     }
 }
@@ -72,5 +64,11 @@ export default {
 .table_container {
   margin: 20px;
   border: 1px solid #e1e1e1
+}
+.el-message-box{
+  width: 600px
+}
+.el-message-box__message p img{
+  width: 100%
 }
 </style>

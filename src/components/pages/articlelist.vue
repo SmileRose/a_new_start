@@ -102,7 +102,8 @@
             this.$message({
               type: 'success',
               message: '删除成功'
-            })
+            });
+            this.getArt();
           } else {
             this.$message({
               type: 'error',
