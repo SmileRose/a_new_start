@@ -25,30 +25,38 @@
         </el-table-column>
         <el-table-column prop="updatetime" label="更新时间">
         </el-table-column>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 分页 -->
-    </div>
-    <!-- <div class="block">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage4" :page-sizes="[100, 200, 300, 400]" :page-size="100" layout="total, sizes, prev, pager, next, jumper" :total="400">
-      </el-pagination>
-    </div> -->
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- 分页 -->
   </div>
+  <div class="block">
+    <el-pagination
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    :current-page="currentPage1"
+    :page-sizes="[20, 40, 50]"
+    :page-size="20"
+    layout="total, sizes, prev, pager, next, jumper"
+    :total="400">
+  </el-pagination>
+</div>
+</div>
 </template>
 <script>
-import headTop from '../common/headTop'
-export default {
-  data() {
+  import headTop from '../common/headTop'
+  export default {
+    data() {
       return {
         loading: true,
         items: [],
-
+        currentPage1: 1,
+        pagesize: 20
       }
     },
     created() {
@@ -59,54 +67,65 @@ export default {
       headTop,
     },
     methods: {
-      getArt() {
-        this.$axios.post('/api/users').then(res => {
-          if (res.data.flag) {
-            this.items = res.data.data;
-            this.loading = false;
-          }
-        })
-      },
-      handleDelete(index, row) {
-        console.log('删除')
-        this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var param = {
-            id: row.id
-          }
-          this.$axios.post('/api/del_article', param).then(res => {
-            if (res.data.flag) {
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              })
-            } else {
-              this.$message({
-                type: 'error',
-                message: '删除失败'
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      },
-      handleEdit(index, row) {
-        this.$router.push({
-          path: '/articleadd',
-          query:{
-            id: row.id
-          }
-        })
-
-      }
+     handleSizeChange(val) {
+      this.pagesize = val;
+      this.getArt();
     },
+    handleCurrentChange(val) {
+      this.currentPage1 = val;
+      this.getArt();
+    },
+    getArt() {
+      let param = {
+        pagesize: this.pagesize,
+        page: this.currentPage1
+      }
+      this.$axios.post('/api/users', param).then(res => {
+        if (res.data.flag) {
+          this.items = res.data.data;
+          this.loading = false;
+        }
+      })
+    },
+    handleDelete(index, row) {
+      console.log('删除')
+      this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var param = {
+          id: row.id
+        }
+        this.$axios.post('/api/del_article', param).then(res => {
+          if (res.data.flag) {
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    handleEdit(index, row) {
+      this.$router.push({
+        path: '/articleadd',
+        query:{
+          id: row.id
+        }
+      })
+    }
+  },
 }
 </script>
 <style lang="less" scoped>
