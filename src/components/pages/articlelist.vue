@@ -53,7 +53,7 @@
   export default {
     data() {
       return {
-        loading: true,
+        loading: false,
         items: [],
         currentPage1: 1,
         pagesize: 20
@@ -80,7 +80,7 @@
         pagesize: this.pagesize,
         page: this.currentPage1
       }
-      this.$axios.post('/api/users', param).then(res => {
+      this.$axios.post('/api/art_select', param).then(res => {
         if (res.data.flag) {
           this.items = res.data.data;
           this.loading = false;

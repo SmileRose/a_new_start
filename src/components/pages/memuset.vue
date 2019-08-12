@@ -3,12 +3,14 @@
     <head-top></head-top>
     <div class="table_container">
       <el-table stripe :data="items" style="width: 100%">
-        <el-table-column label="排序" prop="catid" width="60"></el-table-column>
+        <el-table-column label="排序" prop="listorder" width="60"></el-table-column>
         <el-table-column label="catid" prop="catid"></el-table-column>
-        <el-table-column label="catname" prop="catname"></el-table-column>
-        <el-table-column label="module" prop="module"></el-table-column>
-        <el-table-column label="parentid" prop="parentid"></el-table-column>
-        <el-table-column label="parentdir" prop="parentdir"></el-table-column>
+        <el-table-column label="名称" prop="catname"></el-table-column>
+        <el-table-column label="介绍" prop="description"></el-table-column>
+        <el-table-column label="数量" prop="items"></el-table-column>
+        <el-table-column label="父ID" prop="parentid"></el-table-column>
+        <el-table-column label="拼音" prop="letter"></el-table-column>
+        <el-table-column label="显示" prop="ismenu"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">添加子栏目</el-button>
@@ -46,7 +48,7 @@ export default {
     },
     methods: {
       getData(){
-        this.$axios.post('/api/category').then(res=>{
+        this.$axios.post('/api/menu_category').then(res=>{
            if (res.data.flag) {
             let _data = res.data.data;
             this.items = _data;
