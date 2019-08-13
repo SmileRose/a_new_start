@@ -5,6 +5,36 @@
       <el-table v-loading="loading" fullscreen="true" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="items" stripe style="width: 100%">
         <el-table-column type="selection">
         </el-table-column>
+
+        <el-table-column type="expand">
+              <template slot-scope="props">
+                <el-form label-position="left" inline class="demo-table-expand">
+                  <el-form-item label="阅读数">
+                    <span>{{ props.row.name }}</span>
+                  </el-form-item>
+                  <el-form-item label="喜欢数">
+                    <span>{{ props.row.shop }}</span>
+                  </el-form-item>
+                  <el-form-item label="评论数">
+                    <span>{{ props.row.id }}</span>
+                  </el-form-item>
+                  <el-form-item label="发布人">
+                    <span>{{ props.row.shopId }}</span>
+                  </el-form-item>
+                  <el-form-item label="头图">
+                    <span>{{ props.row.category }}</span>
+                  </el-form-item>
+                  <el-form-item label="url">
+                    <span>{{ props.row.address }}</span>
+                  </el-form-item>
+                  <el-form-item label="商品描述">
+                    <span>{{ props.row.desc }}</span>
+                  </el-form-item>
+                </el-form>
+              </template>
+            </el-table-column>
+
+
         <el-table-column fixed prop="id" label="id">
         </el-table-column>
         <el-table-column prop="catid" label="catid">
@@ -17,13 +47,13 @@
         </el-table-column>
         <el-table-column prop="keywords" label="关键字">
         </el-table-column>
-        <el-table-column prop="cnum" label="点击量">
+        <el-table-column prop="cnum" label="评论数">
         </el-table-column>
         <el-table-column prop="username" label="发布人">
         </el-table-column>
-        <el-table-column prop="inputtime" label="发布时间">
+        <el-table-column prop="inputtime" label="发布时间" >
         </el-table-column>
-        <el-table-column prop="updatetime" label="更新时间">
+        <el-table-column prop="updatetime" label="更新时间" :formatter="dateFormat">
         </el-table-column>
       </el-table-column>
       <el-table-column label="操作">
@@ -50,6 +80,7 @@
 </template>
 <script>
   import headTop from '../common/headTop'
+var moment = require("moment")
   export default {
     data() {
       return {
@@ -62,11 +93,21 @@
     created() {
       this.getArt();
     },
-    computed: {},
+    computed: {
+
+    },
     components: {
       headTop,
     },
     methods: {
+       dateFormat(row, column) {
+          var date = row['updatetime']*1000;
+          if (date == undefined) {
+              return "";
+          }
+
+          return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      },
      handleSizeChange(val) {
       this.pagesize = val;
       this.getArt();
