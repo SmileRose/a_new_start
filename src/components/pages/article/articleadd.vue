@@ -49,11 +49,11 @@
   </div>
 </template>
 <script>
-import headTop from '../common/headTop'
+import headTop from '../../common/headTop'
 import {
   quillEditor
 } from 'vue-quill-editor'
-import quillConfig from '../../tools/quill-config.js'
+import quillConfig from '../../../tools/quill-config.js'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
@@ -175,7 +175,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../../style/mixin';
+@import '../../../style/mixin';
 .table_container {
   margin: 20px;
 }

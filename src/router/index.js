@@ -4,17 +4,21 @@ import Router from 'vue-router'
 
 import login from '@/components/login'
 import menu from '@/components/common/menu'
-
 import home from '@/components/pages/home'
-import articlelist from '@/components/pages/articlelist'
-import articleadd from '@/components/pages/articleadd'
+
+import articlelist from '@/components/pages/article/articlelist'
+
+import articleadd from '@/components/pages/article/articleadd'
+
+import menuimage from '@/components/pages/article/menuimage'
 
 
-import memuset from '@/components/pages/memuset'
+
+import memuset from '@/components/pages/setting/memuset'
 
 // import menuadd from '@/components/pages/menuadd'
 
-import menuimage from '@/components/pages/menuimage'
+
 // import website from '@/components/pages/website'
 
 
@@ -55,6 +59,7 @@ export default new Router({
             name:'articleadd',
             meta: ['内容管理', '添加文章'],
         },
+
         {
             path: '/memuset',
             component: memuset,
@@ -68,6 +73,7 @@ export default new Router({
             name:'menuimage',
             meta: ['模块栏目', '附件管理'],
         },
+
         // {
         //     path: '/menuadd',
         //     component: menuadd,

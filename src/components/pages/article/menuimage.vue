@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import headTop from '../common/headTop'
+import headTop from '../../common/headTop'
 
 var moment = require("moment");
 export default {
@@ -104,7 +104,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../style/mixin';
+@import '../../../style/mixin';
 .table_container {
   margin: 20px;
   border: 1px solid #e1e1e1

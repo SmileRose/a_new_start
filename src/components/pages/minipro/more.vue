@@ -175,7 +175,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-@import '../../style/mixin';
+@import '../../../style/mixin';
 .table_container {
   margin: 20px;
 }

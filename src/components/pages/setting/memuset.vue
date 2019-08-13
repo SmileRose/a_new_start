@@ -25,7 +25,7 @@
   </div>
 </template>
 <script>
-import headTop from '../common/headTop'
+import headTop from '../../common/headTop'
 export default {
   data() {
       return {
@@ -82,7 +82,7 @@ export default {
 }
 </script>
 <style lang="less">
-@import '../../style/mixin';
+@import '../../../style/mixin';
 .table_container {
   margin: 20px;
   border: 1px solid #e1e1e1

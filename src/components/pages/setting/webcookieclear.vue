@@ -389,7 +389,7 @@
 </script>
 
 <style lang="less">
-	@import '../../style/mixin';
+	@import '../../../style/mixin';
     .demo-table-expand {
         font-size: 0;
     }
