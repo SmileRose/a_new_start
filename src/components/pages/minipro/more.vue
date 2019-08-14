@@ -1,182 +1,135 @@
+<!-- 打卡 -->
 <template>
   <div class="fillcontain">
     <head-top></head-top>
     <div class="table_container">
-      <el-row :gutter="20">
-        <el-col :span="12" :offset="4">
-          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="栏目" prop="region">
-              <el-select v-model="ruleForm.catid" placeholder="请选择活动区域">
-                <el-option label="前端" value="11"></el-option>
-                <el-option label="生活" value="13"></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="标题" prop="title">
-              <el-input v-model="ruleForm.title"></el-input>
-            </el-form-item>
-            <el-form-item label="关键字" prop="keywords">
-              <el-input v-model="ruleForm.keywords"></el-input>
-              <el-button @click="addKeywords('ruleForm')">增加关键字</el-button>
-            </el-form-item>
-            <el-form-item label="摘要" prop="description">
-              <el-input type="textarea" v-model="ruleForm.description"></el-input>
-            </el-form-item>
-            <el-form-item label="图片" prop="thumb">
-              <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" v-model="ruleForm.thumb">
-                <i class="el-icon-plus"></i>
-              </el-upload>
-              <el-dialog :visible.sync="dialogVisible" size="tiny">
-                <img width="100%" :src="dialogImageUrl" alt="">
-              </el-dialog>
-            </el-form-item>
-            <el-form-item label="内容" prop="content">
-              <div style="height: 410px;">
-                <quill-editor v-model="ruleForm.content" ref="myQuillEditor" style="height: 300px;">
-                </quill-editor>
-              </div>
-            </el-form-item>
-            <el-form-item label="置顶" prop="delivery">
-              <el-switch v-model="ruleForm.delivery"></el-switch>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">确定</el-button>
-              <el-button @click="resetForm('ruleForm')">重置</el-button>
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row>
+      <el-table v-loading="loading" fullscreen="true" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="items" stripe style="width: 100%">
+        <el-table-column type="selection"></el-table-column>
+        <el-table-column prop="id" label="id" width="80"></el-table-column>
+        <el-table-column prop="catid" label="catid" width="100"></el-table-column>
+        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="remark" label="内容"></el-table-column>
+        <el-table-column prop="create_time" label="发布时间"></el-table-column>
+        <el-table-column prop="imgs" label="图片"></el-table-column>
+        </el-table-column>
+        <el-table-column label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="block">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage1" :page-sizes="[20, 40, 50]" :page-size="20" layout="total, sizes, prev, pager, next, jumper" :total="400"></el-pagination>
     </div>
   </div>
 </template>
 <script>
-import headTop from '../common/headTop'
-import {
-  quillEditor
-} from 'vue-quill-editor'
-import quillConfig from '../../tools/quill-config.js'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+import headTop from '../../common/headTop'
+var moment = require("moment")
 export default {
   data() {
       return {
-        quillOption: quillConfig,
-        dialogImageUrl: '',
-        dialogVisible: false,
-        ruleForm: {
-          catid: '11',
-          title: '',
-          keywords: '',
-          description: '',
-          thumb: false,
-          content: '',
-          id: this.$route.query.id
-        },
-        rules: {
-          name: [{
-            required: true,
-            message: '请输入活动名称',
-            trigger: 'blur'
-          }, {
-            min: 3,
-            max: 30,
-            message: '长度在 3 到 30 个字符',
-            trigger: 'blur'
-          }],
-          title: [{
-            required: true,
-            message: '请输入标题',
-            trigger: 'blur'
-          }],
-          keywords: [{
-            required: true,
-            message: '请输入关键字',
-            trigger: 'blur'
-          }],
-          description: [{
-            required: true,
-            message: '请输入介绍',
-            trigger: 'blur'
-          }],
-          // thumb: [
-          //   { required: true, message: '请选择活动资源', trigger: 'change' }
-          // ],
-          content: [{
-            required: true,
-            message: '请输入内容',
-            trigger: 'blur'
-          }]
-        }
-      };
+        loading: false,
+        items: [],
+        currentPage1: 1,
+        pagesize: 20
+      }
     },
+    created() {
+      this.getArt();
+    },
+    computed: {},
     components: {
       headTop,
-      quillEditor
-    },
-    created: function() {
-      this.getdata();
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let formData = this.ruleForm;
-            this.$axios.post('/api/add_article', formData).then(res => {
-              if (res.data.flag) {
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                });
-              }
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+      dateFormat(row, column) {
+        var date = row['create_time'] * 1000;
+        if (date == undefined) {
+          return "";
+        }
+        return moment(date).format("YYYY-MM-DD HH:mm:ss");
       },
-      getdata() {
-        var id = this.$route.query.id;
-        if (id) {
-          this.update =  true;
-          let param = this.$route.query;
-
-          this.$axios.post('/api/users', param).then(res => {
+      handleSizeChange(val) {
+        this.pagesize = val;
+        this.getArt();
+      },
+      handleCurrentChange(val) {
+        this.currentPage1 = val;
+        this.getArt();
+      },
+      getArt() {
+        let param = {
+          pagesize: this.pagesize,
+          page: this.currentPage1
+        }
+        this.$axios.post('/api/more_punch', param).then(res => {
+          if (res.data.flag) {
+            this.items = res.data.data;
+            this.loading = false;
+          }
+        })
+      },
+      handleDelete(index, row) {
+        console.log('删除')
+        this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          var param = {
+            id: row.id
+          }
+          this.$axios.post('/api/del_article', param).then(res => {
             if (res.data.flag) {
-              var datas = res.data.data[0];
-
-              var _rules = {
-                catid: datas.catid,
-                description: datas.description,
-                keywords: datas.keywords,
-                thumb: datas.thumb,
-                title: datas.title,
-                updatetime: datas.updatetime,
-                id: id
-              }
-
-              this.ruleForm = _rules
+              this.$message({
+                type: 'success',
+                message: '删除成功'
+              });
+              this.getArt();
+            } else {
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              })
             }
           })
-        }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
-      addKeywords() {},
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
+      handleEdit(index, row) {
+        this.$router.push({
+          path: '/articleadd',
+          query: {
+            id: row.id
+          }
+        })
       }
-    }
+    },
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import '../../../style/mixin';
 .table_container {
   margin: 20px;
+  border: 1px solid #e1e1e1
+}
+.table_container .el-form--inline .el-form-item__label {
+  width: 90px;
+  color: #99a9bf;
+}
+.table_container .el-form--inline .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+.table_container .el-form-item__content {
+  color: #999
 }
 </style>

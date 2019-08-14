@@ -6,15 +6,22 @@
       <el-table v-loading="loading" fullscreen="true" element-loading-text="拼命加载中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :data="items" stripe style="width: 100%">
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="id" label="id" width="80"></el-table-column>
-        <el-table-column prop="catid" label="catid" width="100"></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
-        <el-table-column prop="remark" label="内容"></el-table-column>
-        <el-table-column prop="create_time" label="发布时间"></el-table-column>
-        <el-table-column prop="imgs" label="图片"></el-table-column>
+        <el-table-column prop="newsid" label="newsid" width="100"></el-table-column>
+        <el-table-column prop="content" label="内容"></el-table-column></el-table-column>
+
+
+        <el-table-column prop="from_username,reply_username" label="from_username"  >
+          <template slot-scope="scope">
+            {{ scope.row.from_username }} {{ scope.row.reply_username? " -> ":"" }} {{  scope.row.reply_username ? scope.row.reply_username:''}}
+          </template>
         </el-table-column>
+
+
+        <el-table-column prop="create_time" label="时间"></el-table-column>
+
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">回复</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -65,7 +72,7 @@ export default {
           pagesize: this.pagesize,
           page: this.currentPage1
         }
-        this.$axios.post('/api/more_punch', param).then(res => {
+        this.$axios.post('/api/comment', param).then(res => {
           if (res.data.flag) {
             this.items = res.data.data;
             this.loading = false;

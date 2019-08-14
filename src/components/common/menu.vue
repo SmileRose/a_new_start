@@ -13,10 +13,19 @@
 					<el-submenu index="3">
 						<template slot="title"><i class="el-icon-star-on"></i>模块栏目</template>
 						<el-menu-item index="memuset">栏目设置</el-menu-item>
-					<!-- 	<el-menu-item index="menuadd">添加栏目</el-menu-item> -->
+
 						<el-menu-item index="menuimage">附件管理</el-menu-item>
 
 					</el-submenu>
+
+					<el-submenu index="4">
+						<template slot="title"><i class="el-icon-bell"></i>小程序内容</template>
+						<el-menu-item index="more">打卡</el-menu-item>
+						<el-menu-item index="comment">评论</el-menu-item>
+
+					</el-submenu>
+
+
 					<el-submenu index="4">
 						<template slot="title"><i class="el-icon-plus"></i>设置</template>
 						<el-menu-item index="website">站点管理</el-menu-item>
@@ -54,9 +63,14 @@ import commonFooter from './footer'
 </script>
 <style>
 	.el-submenu .el-menu-item{
-		padding-left: 60px;
+		padding:0 0 0 70px !important;
 		height: 40px;
 		line-height: 40px;
-		font-size: 12px
+		font-size: 12px;
+		color:#999 !important;
+	}
+	.el-menu-item.is-active{
+		// color: #4bb777 !important;
+		color: #ffd04b !important;
 	}
 </style>

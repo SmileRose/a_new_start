@@ -22,6 +22,9 @@ import memuset from '@/components/pages/setting/memuset'
 // import website from '@/components/pages/website'
 
 
+import more from '@/components/pages/minipro/more'
+import comment from '@/components/pages/minipro/comment'
+
 
 // import webcookieclear from '@/components/pages/webcookieclear'
 // import webpwd from '@/components/pages/webpwd'
@@ -73,6 +76,22 @@ export default new Router({
             name:'menuimage',
             meta: ['模块栏目', '附件管理'],
         },
+
+        {
+            path: '/more',
+            component: more,
+            name:'more',
+            meta: ['小程序管理', '打卡'],
+        },
+
+        {
+            path: '/comment',
+            component: comment,
+            name:'comment',
+            meta: ['小程序管理', '微信评论'],
+        },
+
+
 
         // {
         //     path: '/menuadd',
