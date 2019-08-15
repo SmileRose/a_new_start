@@ -21,17 +21,22 @@
             <el-form-item label="摘要" prop="description">
               <el-input type="textarea" v-model="ruleForm.description"></el-input>
             </el-form-item>
+
+
             <el-form-item label="图片" prop="thumb">
-              <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove" v-model="ruleForm.thumb">
-                <i class="el-icon-plus"></i>
+              <el-upload class="upload-poster" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :show-file-list="false" :on-change="imgPreview" :on-remove="handleRemove" :auto-upload="false">
+                <img v-if="ruleForm.thumb" :src="ruleForm.thumb" class="avatar">
+                <i v-else class="el-icon-plus"></i>
               </el-upload>
-              <el-dialog :visible.sync="dialogVisible" size="tiny">
+              <el-dialog :visible.sync="dialogVisible">
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
             </el-form-item>
+
+
             <el-form-item label="内容" prop="content">
-              <div style="height: 410px;">
-                <quill-editor v-model="ruleForm.content" ref="myQuillEditor" style="height: 300px;">
+              <div style="height: 610px;">
+                <quill-editor v-model="ruleForm.content" ref="myQuillEditor" style="height: 500px;">
                 </quill-editor>
               </div>
             </el-form-item>
@@ -54,23 +59,22 @@ import {
   quillEditor
 } from 'vue-quill-editor'
 import quillConfig from '../../../tools/quill-config.js'
-import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
 export default {
   data() {
       return {
         quillOption: quillConfig,
         dialogImageUrl: '',
         dialogVisible: false,
+        disabled: false,
         ruleForm: {
           catid: '11',
           title: '',
           keywords: '',
           description: '',
-          thumb: false,
+          thumb: '',
           content: '',
-          id: this.$route.query.id
+          id: ''
         },
         rules: {
           name: [{
@@ -98,9 +102,6 @@ export default {
             message: '请输入介绍',
             trigger: 'blur'
           }],
-          // thumb: [
-          //   { required: true, message: '请选择活动资源', trigger: 'change' }
-          // ],
           content: [{
             required: true,
             message: '请输入内容',
@@ -113,7 +114,9 @@ export default {
       headTop,
       quillEditor
     },
-    created: function() {
+    created: function(option) {
+      var id = this.$route.query.id
+      this.ruleForm.id = id;
       this.getdata();
     },
     methods: {
@@ -138,13 +141,11 @@ export default {
       getdata() {
         var id = this.$route.query.id;
         if (id) {
-          this.update =  true;
+          this.update = true;
           let param = this.$route.query;
-
-          this.$axios.post('/api/users', param).then(res => {
+          this.$axios.post('/api/art_select', param).then(res => {
             if (res.data.flag) {
               var datas = res.data.data[0];
-
               var _rules = {
                 catid: datas.catid,
                 description: datas.description,
@@ -152,10 +153,10 @@ export default {
                 thumb: datas.thumb,
                 title: datas.title,
                 updatetime: datas.updatetime,
-                id: id
+                id: id,
+                content: datas.content,
               }
-
-              this.ruleForm = _rules
+              this.ruleForm = _rules;
             }
           })
         }
@@ -164,19 +165,39 @@ export default {
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
+      imgPreview(file, fileList) {
+        let fileName = file.name;
+        let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
+        if (regex.test(fileName.toLowerCase())) {
+          this.formMovie.posterURL = file.url;
+        } else {
+          this.$message.error('请选择图片文件');
+        }
+      },
       handleRemove(file, fileList) {
         console.log(file, fileList);
       },
-      handlePictureCardPreview(file) {
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      }
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
 @import '../../../style/mixin';
 .table_container {
   margin: 20px;
+  .ql-snow .ql-picker-label {
+    vertical-align: top;
+    line-height: 1
+  }
+  .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+    margin-top: 0;
+    top: 2px;
+  }
+  .upload-poster .avatar {
+    width: 148px;
+  }
+  .editor {
+    line-height: normal !important;
+    height: 800px;
+  }
 }
 </style>

@@ -26,7 +26,7 @@
 					</el-submenu>
 
 
-					<el-submenu index="4">
+					<el-submenu index="5">
 						<template slot="title"><i class="el-icon-plus"></i>设置</template>
 						<el-menu-item index="website">站点管理</el-menu-item>
 						<el-menu-item index="webcookieclear">缓存管理</el-menu-item>
