@@ -14,7 +14,8 @@
         <el-table-column prop="uploadip" label="上传ip"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">预览</el-button>
+            <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
+            <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -83,7 +84,11 @@ export default {
         }
       })
     },
-    handleEdit(index, rows) {
+    handleEdit(index, rows){
+      let aim = rows.aim;
+
+    },
+    handlePreview(index, rows) {
       console.log(rows)
       this.$alert('<img src="https://www.zhmzjl.com/uploadfile/' + rows.filepath + '" />', rows.filename, {
         dangerouslyUseHTMLString: true
