@@ -4,8 +4,8 @@
     <div class="table_container">
       <el-table ref="multipleTable" :data="items" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="aid" label="ID"></el-table-column>
-        <el-table-column prop="module" label="模块名称"></el-table-column>
+        <el-table-column prop="aid" label="ID" width="100"></el-table-column>
+        <el-table-column prop="module" label="模块名称" width="100"></el-table-column>
         <el-table-column prop="catid" label="栏目名称"></el-table-column>
         <el-table-column prop="filename" label="附件名称"></el-table-column>
         <el-table-column prop="filesize" label="附件大小" :formatter="kbformat"></el-table-column>
@@ -14,7 +14,8 @@
         <el-table-column prop="uploadip" label="上传ip"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
+            <!-- <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button> -->
+            <el-button size="mini" @click="dialogVisible = true">预览</el-button>
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -27,6 +28,17 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[30, 50, 80, 100]" :page-size="30" layout="total, sizes, prev, pager, next, jumper" :total="400"></el-pagination>
       </div>
     </div>
+
+
+    <el-dialog title="预览" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+
+
   </div>
 </template>
 <script>
@@ -84,7 +96,7 @@ export default {
         }
       })
     },
-    handleEdit(index, rows){
+    handleEdit(index, rows) {
       let aim = rows.aim;
 
     },
@@ -141,17 +153,22 @@ export default {
     }
   }
 }
+
 </script>
 <style lang="less">
 @import '../../../style/mixin';
+
 .table_container {
   margin: 20px;
   border: 1px solid #e1e1e1
 }
+
 .el-message-box {
   width: 600px
 }
+
 .el-message-box__message p img {
   width: 100%
 }
+
 </style>
