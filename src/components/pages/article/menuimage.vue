@@ -15,7 +15,7 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!-- <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button> -->
-            <el-button size="mini" @click="dialogVisible = true">预览</el-button>
+            <el-button size="mini" @click="handlePreview(scope.$index, scope.row)">预览</el-button>
             <el-button size="mini" type="warning" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
@@ -28,17 +28,18 @@
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="page" :page-sizes="[30, 50, 80, 100]" :page-size="30" layout="total, sizes, prev, pager, next, jumper" :total="400"></el-pagination>
       </div>
     </div>
-
-
-    <el-dialog title="预览" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>这是一段信息</span>
+    <el-dialog :title="thisimg.imgalt" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <span>
+        <img class="show-img" v-if="thisimg.imgsrc" :src="thisimg.imgsrc" :alt="thisimg.imgalt">
+      </span>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="warning" @click="dialogVisible = false">修改</el-button>
+        <el-button type="danger" @click="handleDelete(i, id)">删除</el-button>
+        <el-button @click="nextImg('next')">上一张</el-button>
+        <el-button @click="nextImg('prev')">下一张</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
-
-
   </div>
 </template>
 <script>
@@ -50,7 +51,13 @@ export default {
       items: [],
       page: 1,
       pagesize: 30,
-      multipleSelection: []
+      dialogVisible: false,
+      multipleSelection: [],
+      thisimg: {
+        imgsrc: "",
+        imgalt: ""
+      },
+      imgid: ''
     }
   },
   components: {
@@ -60,6 +67,37 @@ export default {
     this.getArt();
   },
   methods: {
+    nextImg(m) {
+      if (m == 'prev') {
+        var _param = {
+          aid: this.imgid,
+          prevone: true
+        }
+      } else {
+        var _param = {
+          aid: this.imgid,
+          nextone: true
+        }
+      }
+      this.$axios.post('/api/menu_image', _param).then(res => {
+        if (res.data.flag) {
+          // this.items = res.data.data;
+          let _data =  res.data.data[0];
+          this.thisimg = {
+            imgsrc:  'https://www.zhmzjl.com/uploadfile/' + _data.filepath,
+            imgalt: _data.filename
+          }
+          this.imgid = _data.aid
+        }
+      })
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
     dateFormat(row, column) {
       var date = row['uploadtime'] * 1000;
       if (date == undefined) {
@@ -98,13 +136,14 @@ export default {
     },
     handleEdit(index, rows) {
       let aim = rows.aim;
-
     },
     handlePreview(index, rows) {
-      console.log(rows)
-      this.$alert('<img src="https://www.zhmzjl.com/uploadfile/' + rows.filepath + '" />', rows.filename, {
-        dangerouslyUseHTMLString: true
-      });
+      this.dialogVisible = true;
+      this.thisimg = {
+        imgsrc: 'https://www.zhmzjl.com/uploadfile/' + rows.filepath,
+        imgalt: rows.filename
+      }
+      this.imgid = rows.aid;
     },
     handleDelete(index, rows) {
       this.$confirm('确定删除，不后悔？', '提示', {
@@ -153,22 +192,20 @@ export default {
     }
   }
 }
-
 </script>
 <style lang="less">
 @import '../../../style/mixin';
-
+.show-img {
+  width: 100%
+}
 .table_container {
   margin: 20px;
   border: 1px solid #e1e1e1
 }
-
 .el-message-box {
   width: 600px
 }
-
 .el-message-box__message p img {
   width: 100%
 }
-
 </style>
