@@ -44,9 +44,9 @@
 </template>
 <script>
 import headTop from '../../common/headTop'
-var moment = require("moment");
+var moment = require('moment')
 export default {
-  data() {
+  data () {
     return {
       items: [],
       page: 1,
@@ -54,8 +54,8 @@ export default {
       dialogVisible: false,
       multipleSelection: [],
       thisimg: {
-        imgsrc: "",
-        imgalt: ""
+        imgsrc: '',
+        imgalt: ''
       },
       imgid: ''
     }
@@ -63,18 +63,19 @@ export default {
   components: {
     headTop
   },
-  created: function() {
-    this.getArt();
+  created: function () {
+    this.getArt()
   },
   methods: {
-    nextImg(m) {
-      if (m == 'prev') {
-        var _param = {
+    nextImg (m) {
+      var _param = {}
+      if (m === 'prev') {
+        _param = {
           aid: this.imgid,
           prevone: true
         }
       } else {
-        var _param = {
+        _param = {
           aid: this.imgid,
           nextone: true
         }
@@ -82,70 +83,70 @@ export default {
       this.$axios.post('/api/menu_image', _param).then(res => {
         if (res.data.flag) {
           // this.items = res.data.data;
-          let _data =  res.data.data[0];
+          let _data = res.data.data[0]
           this.thisimg = {
-            imgsrc:  'https://www.zhmzjl.com/uploadfile/' + _data.filepath,
+            imgsrc: 'https://www.zhmzjl.com/uploadfile/' + _data.filepath,
             imgalt: _data.filename
           }
           this.imgid = _data.aid
         }
       })
     },
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
-          done();
+          done()
         })
-        .catch(_ => {});
+        .catch(_ => {})
     },
-    dateFormat(row, column) {
-      var date = row['uploadtime'] * 1000;
-      if (date == undefined) {
-        return "";
+    dateFormat (row, column) {
+      var date = row['uploadtime'] * 1000
+      if (!date) {
+        return ''
       }
-      return moment(date).format("YYYY-MM-DD HH:mm:ss");
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
-    kbformat(row, column) {
-      var filesize = row['filesize'];
-      if (filesize == undefined) {
-        return "";
+    kbformat (row, column) {
+      var filesize = row['filesize']
+      if (typeof (filesize) === 'undefined') {
+        return ''
       }
       if (filesize > 1048576) {
-        return (filesize / 1048576).toFixed(2) + ' M';
+        return (filesize / 1048576).toFixed(2) + ' M'
       } else {
-        return (filesize / 1024).toFixed(2) + ' kb';
+        return (filesize / 1024).toFixed(2) + ' kb'
       }
     },
-    handleSizeChange(val) {
-      this.pagesize = val;
-      console.log(`每页 ${val} 条`);
+    handleSizeChange (val) {
+      this.pagesize = val
+      console.log(`每页 ${val} 条`)
     },
-    handleCurrentChange(val) {
-      this.page = val;
+    handleCurrentChange (val) {
+      this.page = val
     },
-    getArt() {
+    getArt () {
       let _param = {
         page: this.page,
         pagesize: this.pagesize
       }
       this.$axios.post('/api/menu_image', _param).then(res => {
         if (res.data.flag) {
-          this.items = res.data.data;
+          this.items = res.data.data
         }
       })
     },
-    handleEdit(index, rows) {
-      let aim = rows.aim;
+    handleEdit (index, rows) {
+      // let aim = rows.aim
     },
-    handlePreview(index, rows) {
-      this.dialogVisible = true;
+    handlePreview (index, rows) {
+      this.dialogVisible = true
       this.thisimg = {
         imgsrc: 'https://www.zhmzjl.com/uploadfile/' + rows.filepath,
         imgalt: rows.filename
       }
-      this.imgid = rows.aid;
+      this.imgid = rows.aid
     },
-    handleDelete(index, rows) {
+    handleDelete (index, rows) {
       this.$confirm('确定删除，不后悔？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -156,21 +157,21 @@ export default {
         }
         this.$axios.post('/api/menu_image_del', _param).then(res => {
           if (res.data.flag) {
-            this.getArt();
+            this.getArt()
           }
         })
       })
     },
-    deleteMuch(rows) {
+    deleteMuch (rows) {
       this.$confirm('确定删除，不后悔？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let sel = this.$refs.multipleTable.selection;
-        var _postid = [];
+        let sel = this.$refs.multipleTable.selection
+        var _postid = []
         for (let i = 0; i < sel.length; i++) {
-          _postid.push(sel[i].aid);
+          _postid.push(sel[i].aid)
         }
         let param = {
           aid: _postid.join(',')
@@ -181,14 +182,14 @@ export default {
             this.$message({
               message: '删除成功',
               type: 'success'
-            });
-            this.getArt();
+            })
+            this.getArt()
           }
         })
-      });
+      })
     },
-    handleSelectionChange(val) {
-      this.multipleSelection = val;
+    handleSelectionChange (val) {
+      this.multipleSelection = val
     }
   }
 }

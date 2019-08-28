@@ -9,13 +9,11 @@
         <el-table-column prop="newsid" label="newsid" width="100"></el-table-column>
         <el-table-column prop="content" label="内容"></el-table-column></el-table-column>
 
-
         <el-table-column prop="from_username,reply_username" label="from_username"  >
           <template slot-scope="scope">
             {{ scope.row.from_username }} {{ scope.row.reply_username? " -> ":"" }} {{  scope.row.reply_username ? scope.row.reply_username:''}}
           </template>
         </el-table-column>
-
 
         <el-table-column prop="create_time" label="时间"></el-table-column>
 
@@ -34,91 +32,91 @@
 </template>
 <script>
 import headTop from '../../common/headTop'
-var moment = require("moment")
+var moment = require('moment')
 export default {
-  data() {
-      return {
-        loading: false,
-        items: [],
-        currentPage1: 1,
-        pagesize: 20
+  data () {
+    return {
+      loading: false,
+      items: [],
+      currentPage1: 1,
+      pagesize: 20
+    }
+  },
+  created () {
+    this.getArt()
+  },
+  computed: {},
+  components: {
+    headTop
+  },
+  methods: {
+    dateFormat (row, column) {
+      var date = row['create_time'] * 1000
+      if (typeof (date) === 'undefined') {
+        return ''
       }
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
-    created() {
-      this.getArt();
+    handleSizeChange (val) {
+      this.pagesize = val
+      this.getArt()
     },
-    computed: {},
-    components: {
-      headTop,
+    handleCurrentChange (val) {
+      this.currentPage1 = val
+      this.getArt()
     },
-    methods: {
-      dateFormat(row, column) {
-        var date = row['create_time'] * 1000;
-        if (date == undefined) {
-          return "";
+    getArt () {
+      let param = {
+        pagesize: this.pagesize,
+        page: this.currentPage1
+      }
+      this.$axios.post('/api/comment', param).then(res => {
+        if (res.data.flag) {
+          this.items = res.data.data
+          this.loading = false
         }
-        return moment(date).format("YYYY-MM-DD HH:mm:ss");
-      },
-      handleSizeChange(val) {
-        this.pagesize = val;
-        this.getArt();
-      },
-      handleCurrentChange(val) {
-        this.currentPage1 = val;
-        this.getArt();
-      },
-      getArt() {
-        let param = {
-          pagesize: this.pagesize,
-          page: this.currentPage1
+      })
+    },
+    handleDelete (index, row) {
+      console.log('删除')
+      this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        var param = {
+          id: row.id
         }
-        this.$axios.post('/api/comment', param).then(res => {
+        this.$axios.post('/api/del_article', param).then(res => {
           if (res.data.flag) {
-            this.items = res.data.data;
-            this.loading = false;
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            })
+            this.getArt()
+          } else {
+            this.$message({
+              type: 'error',
+              message: '删除失败'
+            })
           }
         })
-      },
-      handleDelete(index, row) {
-        console.log('删除')
-        this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          var param = {
-            id: row.id
-          }
-          this.$axios.post('/api/del_article', param).then(res => {
-            if (res.data.flag) {
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              });
-              this.getArt();
-            } else {
-              this.$message({
-                type: 'error',
-                message: '删除失败'
-              })
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      },
-      handleEdit(index, row) {
-        this.$router.push({
-          path: '/articleadd',
-          query: {
-            id: row.id
-          }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         })
-      }
+      })
     },
+    handleEdit (index, row) {
+      this.$router.push({
+        path: '/articleadd',
+        query: {
+          id: row.id
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less">

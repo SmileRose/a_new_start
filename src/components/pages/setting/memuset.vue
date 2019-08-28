@@ -27,58 +27,57 @@
 <script>
 import headTop from '../../common/headTop'
 export default {
-  data() {
-      return {
-        items: []
-      }
+  data () {
+    return {
+      items: []
+    }
+  },
+  created () {
+    this.getData()
+  },
+  computed: {
+    handleEdit (index, row) {
+      console.log(index, row)
     },
-    created() {
-      this.getData();
-    },
-    computed: {
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-      }
-    },
-    components: {
-      headTop,
-    },
-    methods: {
-      getData(){
-        this.$axios.post('/api/menu_category').then(res=>{
-           if (res.data.flag) {
-            let _data = res.data.data;
-            this.items = _data;
-            var treeData = [];
+    handleDelete (index, row) {
+      console.log(index, row)
+    }
+  },
+  components: {
+    headTop
+  },
+  methods: {
+    getData () {
+      this.$axios.post('/api/menu_category').then(res => {
+        if (res.data.flag) {
+          let _data = res.data.data
+          this.items = _data
+          var treeData = []
 
-            // for(let i = 0; i< _data.length; i++){
-            //   let ii = _data[i];
+          // for(let i = 0; i< _data.length; i++){
+          //   let ii = _data[i];
 
-            //   var _json = {
+          //   var _json = {
 
-            //   }
+          //   }
 
+          //   if(ii.parentid!=0){
 
-            //   if(ii.parentid!=0){
+          //     treeData[ii.parentid]['children'].push(ii)
 
-            //     treeData[ii.parentid]['children'].push(ii)
+          //   }else{
+          //     ii.children= [];
 
-            //   }else{
-            //     ii.children= [];
+          //     treeData.push = ii;
 
-            //     treeData.push = ii;
+          //   }
+          // }
 
-            //   }
-            // }
-
-            // console.log(treeData)
-           }
-        })
-      }
-    },
+          // console.log(treeData)
+        }
+      })
+    }
+  }
 }
 </script>
 <style lang="less">

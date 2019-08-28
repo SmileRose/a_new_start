@@ -29,13 +29,13 @@
 import headTop from '../common/headTop'
 export default {
   name: 'home',
-  data() {
+  data () {
     return {
       // msg: 'Welcome to Your Vue.js App'
     }
   },
   components: {
-    headTop,
+    headTop
   }
 }
 </script>

@@ -22,7 +22,6 @@
               <el-input type="textarea" v-model="ruleForm.description"></el-input>
             </el-form-item>
 
-
             <el-form-item label="图片" prop="thumb">
               <el-upload class="upload-poster" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :show-file-list="false" :on-change="imgPreview" :on-remove="handleRemove" :auto-upload="false">
                 <img v-if="ruleForm.thumb" :src="ruleForm.thumb" class="avatar">
@@ -32,7 +31,6 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
             </el-form-item>
-
 
             <el-form-item label="内容" prop="content">
               <div style="height: 610px;">
@@ -61,123 +59,123 @@ import {
 import quillConfig from '../../../tools/quill-config.js'
 import 'quill/dist/quill.snow.css'
 export default {
-  data() {
-      return {
-        quillOption: quillConfig,
-        dialogImageUrl: '',
-        dialogVisible: false,
-        disabled: false,
-        ruleForm: {
-          catid: '11',
-          title: '',
-          keywords: '',
-          description: '',
-          thumb: '',
-          content: '',
-          id: ''
-        },
-        rules: {
-          name: [{
-            required: true,
-            message: '请输入活动名称',
-            trigger: 'blur'
-          }, {
-            min: 3,
-            max: 30,
-            message: '长度在 3 到 30 个字符',
-            trigger: 'blur'
-          }],
-          title: [{
-            required: true,
-            message: '请输入标题',
-            trigger: 'blur'
-          }],
-          keywords: [{
-            required: true,
-            message: '请输入关键字',
-            trigger: 'blur'
-          }],
-          description: [{
-            required: true,
-            message: '请输入介绍',
-            trigger: 'blur'
-          }],
-          content: [{
-            required: true,
-            message: '请输入内容',
-            trigger: 'blur'
-          }]
-        }
-      };
-    },
-    components: {
-      headTop,
-      quillEditor
-    },
-    created: function(option) {
-      var id = this.$route.query.id
-      this.ruleForm.id = id;
-      this.getdata();
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let formData = this.ruleForm;
-            this.$axios.post('/api/add_article', formData).then(res => {
-              if (res.data.flag) {
-                this.$message({
-                  message: '添加成功',
-                  type: 'success'
-                });
-              }
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+  data () {
+    return {
+      quillOption: quillConfig,
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false,
+      ruleForm: {
+        catid: '11',
+        title: '',
+        keywords: '',
+        description: '',
+        thumb: '',
+        content: '',
+        id: ''
       },
-      getdata() {
-        var id = this.$route.query.id;
-        if (id) {
-          this.update = true;
-          let param = this.$route.query;
-          this.$axios.post('/api/art_select', param).then(res => {
+      rules: {
+        name: [{
+          required: true,
+          message: '请输入活动名称',
+          trigger: 'blur'
+        }, {
+          min: 3,
+          max: 30,
+          message: '长度在 3 到 30 个字符',
+          trigger: 'blur'
+        }],
+        title: [{
+          required: true,
+          message: '请输入标题',
+          trigger: 'blur'
+        }],
+        keywords: [{
+          required: true,
+          message: '请输入关键字',
+          trigger: 'blur'
+        }],
+        description: [{
+          required: true,
+          message: '请输入介绍',
+          trigger: 'blur'
+        }],
+        content: [{
+          required: true,
+          message: '请输入内容',
+          trigger: 'blur'
+        }]
+      }
+    }
+  },
+  components: {
+    headTop,
+    quillEditor
+  },
+  created: function (option) {
+    var id = this.$route.query.id
+    this.ruleForm.id = id
+    this.getdata()
+  },
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let formData = this.ruleForm
+          this.$axios.post('/api/add_article', formData).then(res => {
             if (res.data.flag) {
-              var datas = res.data.data[0];
-              var _rules = {
-                catid: datas.catid,
-                description: datas.description,
-                keywords: datas.keywords,
-                thumb: datas.thumb,
-                title: datas.title,
-                updatetime: datas.updatetime,
-                id: id,
-                content: datas.content,
-              }
-              this.ruleForm = _rules;
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              })
             }
           })
-        }
-      },
-      addKeywords() {},
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-      imgPreview(file, fileList) {
-        let fileName = file.name;
-        let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/;
-        if (regex.test(fileName.toLowerCase())) {
-          this.formMovie.posterURL = file.url;
         } else {
-          this.$message.error('请选择图片文件');
+          console.log('error submit!!')
+          return false
         }
-      },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
+      })
+    },
+    getdata () {
+      var id = this.$route.query.id
+      if (id) {
+        this.update = true
+        let param = this.$route.query
+        this.$axios.post('/api/art_select', param).then(res => {
+          if (res.data.flag) {
+            var datas = res.data.data[0]
+            var _rules = {
+              catid: datas.catid,
+              description: datas.description,
+              keywords: datas.keywords,
+              thumb: datas.thumb,
+              title: datas.title,
+              updatetime: datas.updatetime,
+              id: id,
+              content: datas.content
+            }
+            this.ruleForm = _rules
+          }
+        })
+      }
+    },
+    addKeywords () {},
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    },
+    imgPreview (file, fileList) {
+      let fileName = file.name
+      let regex = /(.jpg|.jpeg|.gif|.png|.bmp)$/
+      if (regex.test(fileName.toLowerCase())) {
+        this.formMovie.posterURL = file.url
+      } else {
+        this.$message.error('请选择图片文件')
+      }
+    },
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
     }
+  }
 }
 </script>
 <style lang="less">
