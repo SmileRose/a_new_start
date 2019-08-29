@@ -7,7 +7,7 @@
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="id" label="id" width="80"></el-table-column>
         <el-table-column prop="newsid" label="newsid" width="100"></el-table-column>
-        <el-table-column prop="content" label="内容"></el-table-column></el-table-column>
+        <el-table-column prop="content" label="内容"></el-table-column>
 
         <el-table-column prop="from_username,reply_username" label="from_username"  >
           <template slot-scope="scope">

@@ -23,41 +23,41 @@
 </template>
 <script>
 export default {
-  data() {
-      return {
-        ruleForm: {
-          username: '',
-          password: ''
-        },
-        rules: {
-          username: [{
-            required: true,
-            message: '请输入用户名',
-            trigger: 'blur'
-          }],
-          password: [{
-            required: true,
-            message: '请输入密码',
-            trigger: 'blur'
-          }],
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$router.push('menu')
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+  data () {
+    return {
+      ruleForm: {
+        username: '',
+        password: ''
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      rules: {
+        username: [{
+          required: true,
+          message: '请输入用户名',
+          trigger: 'blur'
+        }],
+        password: [{
+          required: true,
+          message: '请输入密码',
+          trigger: 'blur'
+        }]
       }
+    }
+  },
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$router.push('menu')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
+    resetForm (formName) {
+      this.$refs[formName].resetFields()
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

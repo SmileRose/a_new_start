@@ -21,7 +21,6 @@
             <el-form-item label="摘要" prop="description">
               <el-input type="textarea" v-model="ruleForm.description"></el-input>
             </el-form-item>
-
             <el-form-item label="图片" prop="thumb">
               <el-upload class="upload-poster" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :show-file-list="false" :on-change="imgPreview" :on-remove="handleRemove" :auto-upload="false">
                 <img v-if="ruleForm.thumb" :src="ruleForm.thumb" class="avatar">
@@ -31,7 +30,6 @@
                 <img width="100%" :src="dialogImageUrl" alt="">
               </el-dialog>
             </el-form-item>
-
             <el-form-item label="内容" prop="content">
               <div style="height: 610px;">
                 <quill-editor v-model="ruleForm.content" ref="myQuillEditor" style="height: 500px;">

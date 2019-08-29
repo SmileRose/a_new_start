@@ -11,7 +11,6 @@
         <el-table-column prop="remark" label="内容"></el-table-column>
         <el-table-column prop="create_time" label="发布时间"></el-table-column>
         <el-table-column prop="imgs" label="图片"></el-table-column>
-        </el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -47,7 +46,7 @@ export default {
   methods: {
     dateFormat (row, column) {
       var date = row['create_time'] * 1000
-      if (date == undefined) {
+      if (typeof (date) === 'undefined') {
         return ''
       }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
