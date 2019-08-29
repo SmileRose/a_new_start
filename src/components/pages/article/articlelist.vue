@@ -39,7 +39,6 @@
         <el-table-column prop="title" label="标题"></el-table-column>
         <el-table-column prop="cnum" label="评论数"></el-table-column>
         <el-table-column prop="inputtime" label="发布时间" :formatter="dateFormat"></el-table-column>
-        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
@@ -75,7 +74,7 @@ export default {
   methods: {
     dateFormat (row, column) {
       var date = row['inputtime'] * 1000
-      if (date == undefined) {
+      if (typeof (date) === 'undefined') {
         return ''
       }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
