@@ -24,7 +24,7 @@ import comment from '@/components/pages/minipro/comment'
 // import webcookieclear from '@/components/pages/webcookieclear'
 // import webpwd from '@/components/pages/webpwd'
 
-// import about from '@/components/pages/about'
+import about from '@/components/pages/user/about'
 
 Vue.use(Router)
 
@@ -83,7 +83,7 @@ export default new Router({
         component: comment,
         name: 'comment',
         meta: ['小程序管理', '微信评论']
-      }
+      },
 
         // {
         //     path: '/menuadd',
@@ -104,11 +104,11 @@ export default new Router({
         //     component: webpwd,
         //     meta: ['设置', '修改密码'],
         // },
-        // {
-        //     path: '/about',
-        //     component: about,
-        //     meta: ['关于', '关于'],
-        // }
+        {
+            path: '/about',
+            component: about,
+            meta: ['关于', '关于'],
+        }
       ]
     }]
 })
