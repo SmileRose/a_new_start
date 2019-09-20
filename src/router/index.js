@@ -7,22 +7,18 @@ import menu from '@/components/common/menu'
 import home from '@/components/pages/home'
 
 import articlelist from '@/components/pages/article/articlelist'
-
 import articleadd from '@/components/pages/article/articleadd'
 
-import menuimage from '@/components/pages/article/menuimage'
-
+import menuimage from '@/components/pages/setting/menuimage'
 import memuset from '@/components/pages/setting/memuset'
-
-// import menuadd from '@/components/pages/menuadd'
-
-// import website from '@/components/pages/website'
 
 import more from '@/components/pages/minipro/more'
 import comment from '@/components/pages/minipro/comment'
+import addMore from '@/components/pages/minipro/add_more'
 
-// import webcookieclear from '@/components/pages/webcookieclear'
-// import webpwd from '@/components/pages/webpwd'
+import cookieClear from '@/components/pages/website/cookieclear'
+import webpwd from '@/components/pages/website/webpwd'
+import seoset from '@/components/pages/website/seoset'
 
 import about from '@/components/pages/user/about'
 
@@ -82,33 +78,40 @@ export default new Router({
         path: '/comment',
         component: comment,
         name: 'comment',
-        meta: ['小程序管理', '微信评论']
+        meta: ['小程序管理', '评论']
+      },
+      {
+        path: '/add_more',
+        component: addMore,
+        name: 'addMore',
+        meta: ['小程序管理', '添加打卡']
       },
 
-        // {
-        //     path: '/menuadd',
-        //     component: menuadd,
-        //     meta: ['模块栏目', '添加栏目'],
-        // },
-        // {
-        //     path: '/website',
-        //     component: website,
-        //     meta: ['设置', '站点管理'],
-        // },{
-        //     path: '/webcookieclear',
-        //     component: webcookieclear,
-        //     meta: ['设置', '缓存管理'],
-        // },
+      {
+        path: '/cookie_clear',
+        component: cookieClear,
+        meta: ['设置', '缓存清理']
+      },
+      {
+        path: '/seoset',
+        component: seoset,
+        meta: ['设置', '站点管理']
+      },
+      {
+        path: '/webpwd',
+        component: webpwd,
+        meta: ['设置', '修改密码']
+      },
         // {
         //     path: '/webpwd',
         //     component: webpwd,
         //     meta: ['设置', '修改密码'],
         // },
-        {
-            path: '/about',
-            component: about,
-            meta: ['关于', '关于'],
-        }
+      {
+        path: '/about',
+        component: about,
+        meta: ['关于', '关于']
+      }
       ]
     }]
 })

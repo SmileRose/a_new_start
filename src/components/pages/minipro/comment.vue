@@ -79,7 +79,7 @@ export default {
     },
     handleDelete (index, row) {
       console.log('删除')
-      this.$confirm('删除后无法恢复,确认删除文章? ', '提示', {
+      this.$confirm('删除后无法恢复,确认删除评论? ', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -87,7 +87,7 @@ export default {
         var param = {
           id: row.id
         }
-        this.$axios.post('/api/del_article', param).then(res => {
+        this.$axios.post('/api/del_comment', param).then(res => {
           if (res.data.flag) {
             this.$message({
               type: 'success',

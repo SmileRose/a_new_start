@@ -104,7 +104,7 @@ export default {
     },
     handleEdit (index, row) {
       this.$router.push({
-        path: '/articleadd',
+        path: '/add_more',
         query: {
           id: row.id
         }
