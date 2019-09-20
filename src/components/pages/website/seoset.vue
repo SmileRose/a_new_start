@@ -25,7 +25,6 @@
                <el-input v-model="ruleForm.title"></el-input>
             </el-form-item>
 
-            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">修改</el-button>
 
@@ -93,10 +92,11 @@ export default {
 }
 </script>
 <style lang="less">
-
+.table_container{
+  padding:100px
+}
 .Rose-Page{
-  min-height: calc(100% - 50px);
-  margin: 0 10px;
+  min-height: calc(100% - 70px);
 
 }
 </style>

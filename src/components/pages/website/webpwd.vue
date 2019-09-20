@@ -21,7 +21,6 @@
                <el-input v-model="ruleForm.title"></el-input>
             </el-form-item>
 
-            </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">修改</el-button>
             </el-form-item>
