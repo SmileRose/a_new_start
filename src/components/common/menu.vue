@@ -11,6 +11,7 @@
           background-color="#324057"
           text-color="#fff"
           active-text-color="#ffd04b"
+          default-openeds="[2,3,4,5,6]"
         >
           <el-menu-item index="home">
             <i class="el-icon-menu"></i>首页
