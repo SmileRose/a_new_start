@@ -86,7 +86,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 
 .Rose-Page{
   min-height: calc(100% - 50px);

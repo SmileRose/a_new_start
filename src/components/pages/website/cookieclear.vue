@@ -68,10 +68,7 @@ export default {
   }
 }
 </script>
-<style lang="less">
-.table_container{
-  padding:100px
-}
+<style lang="less" scoped>
 
 .Rose-Page{
   min-height: calc(100% - 70px);

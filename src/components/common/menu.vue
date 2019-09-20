@@ -3,6 +3,7 @@
     <el-row style="height: 100vh;">
       <el-col :lg="3" :md="6" :sm="4" :xs="2" style="min-height: 100%; background-color: #324057;">
         <el-menu
+
           :default-active="defaultActive"
           collapse-transition
           style="min-height: 100%;"
@@ -69,6 +70,12 @@
 <script>
 import commonFooter from './footer'
 export default {
+  data () {
+    return {
+      activeIndex: 'home'
+
+    }
+  },
   computed: {
     defaultActive: function () {
       return this.$route.path.replace('/', '')
