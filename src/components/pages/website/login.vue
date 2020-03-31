@@ -60,8 +60,8 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
-@import '../style/mixin';
+<style lang="less">
+@import '../../../style/mixin';
 .login_page {
   background-color: #324057;
   position: absolute;

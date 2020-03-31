@@ -40,8 +40,9 @@ export default {
 <style scoped>
 .Rose-Page{
   min-height: calc(100% - 50px);
-  margin: 0 10px;
-
+}
+.Rose-content{
+  margin:0 10px
 }
 
 </style>

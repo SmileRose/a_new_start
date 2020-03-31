@@ -3,7 +3,6 @@
     <el-row style="height: 100vh;">
       <el-col :lg="3" :md="6" :sm="4" :xs="2" style="min-height: 100%; background-color: #324057;">
         <el-menu
-
           :default-active="defaultActive"
           collapse-transition
           style="min-height: 100%;"
@@ -12,7 +11,7 @@
           background-color="#324057"
           text-color="#fff"
           active-text-color="#ffd04b"
-          default-openeds="[2,3,4,5,6]"
+          :default-openeds="openitem"
         >
           <el-menu-item index="home">
             <i class="el-icon-menu"></i>首页
@@ -72,7 +71,8 @@ import commonFooter from './footer'
 export default {
   data () {
     return {
-      activeIndex: 'home'
+      activeIndex: 'home',
+      openitem: [2, 3, 4, 5, 6]
 
     }
   },
