@@ -59,6 +59,10 @@
       </el-col>
       <el-col :lg="21" :md="18" :sm="20" :xs="22" :span="20" style="height: 100%;overflow: auto;">
         <keep-alive>
+          <!-- <head-top></head-top> -->
+
+          <!-- <head-top></head-top> -->
+
           <router-view></router-view>
         </keep-alive>
         <common-footer></common-footer>
@@ -68,6 +72,8 @@
 </template>
 <script>
 import commonFooter from './footer'
+import headTop from './headTop'
+
 export default {
   data () {
     return {
@@ -82,7 +88,8 @@ export default {
     }
   },
   components: {
-    commonFooter
+    commonFooter,
+    headTop
   }
 }
 </script>

@@ -8,15 +8,12 @@
         <el-table-column prop="id" label="id" width="80"></el-table-column>
         <el-table-column prop="newsid" label="newsid" width="100"></el-table-column>
         <el-table-column prop="content" label="内容"></el-table-column>
-
         <el-table-column prop="from_username,reply_username" label="from_username"  >
           <template slot-scope="scope">
             {{ scope.row.from_username }} {{ scope.row.reply_username? " -> ":"" }} {{  scope.row.reply_username ? scope.row.reply_username:''}}
           </template>
         </el-table-column>
-
-        <el-table-column prop="create_time" label="时间"></el-table-column>
-
+        <el-table-column prop="create_time" label="日期" :formatter="dateFormat"></el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">回复</el-button>
@@ -32,7 +29,7 @@
 </template>
 <script>
 import headTop from '../../common/headTop'
-var moment = require('moment')
+const moment = require('moment')
 export default {
   data () {
     return {
@@ -51,9 +48,9 @@ export default {
   },
   methods: {
     dateFormat (row, column) {
-      var date = row['create_time'] * 1000
+      let date = row['create_time']
       if (typeof (date) === 'undefined') {
-        return ''
+        return '';
       }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
@@ -78,7 +75,7 @@ export default {
       })
     },
     handleDelete (index, row) {
-      console.log('删除')
+
       this.$confirm('删除后无法恢复,确认删除评论? ', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

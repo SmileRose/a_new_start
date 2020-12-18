@@ -13,11 +13,11 @@
               <el-form-item label="喜欢数">
                 <span>{{ props.row.thumbs_up }}</span>
               </el-form-item>
-              <el-form-item label="评论数">
+              <el-form-item label="评论数" >
                 <span>{{ props.row.cnum }}</span>
               </el-form-item>
-              <el-form-item label="更新时间">
-                <span>{{ props.row.updatetime }}</span>
+              <el-form-item label="更新时间" >
+                <span :formatter="dateShow">{{ props.row.updatetime }}</span>
               </el-form-item>
               <el-form-item label="发布人">
                 <span>{{ props.row.username }}</span>
@@ -36,14 +36,21 @@
         </el-table-column>
         <el-table-column prop="id" label="id" width="80"></el-table-column>
         <el-table-column prop="catid" label="catid" width="100"></el-table-column>
-        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="title" label="标题">
+          <!--  <template slot-scope="scope">
+            <a :to="{ path: scope.row.url }">{{ scope.row.title }}</a>
+          </template>
+ -->
+        </el-table-column>
         <el-table-column prop="cnum" label="评论数"></el-table-column>
+        <el-table-column prop="keywords" label="关键字"></el-table-column>
         <el-table-column prop="inputtime" label="发布时间" :formatter="dateFormat"></el-table-column>
         <el-table-column label="操作">
 
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" type="warning" @click="goLink(scope.$index, scope.row)">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -73,10 +80,19 @@ export default {
     headTop
   },
   methods: {
+    dateShow (row, column) {
+      console.log(row,column)
+      var date = row['inputtime'] * 1000
+      if (typeof (date) === 'undefined') {
+        return '';
+      }
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
+    },
+
     dateFormat (row, column) {
       var date = row['inputtime'] * 1000
       if (typeof (date) === 'undefined') {
-        return ''
+        return '';
       }
       return moment(date).format('YYYY-MM-DD HH:mm:ss')
     },
@@ -138,7 +154,13 @@ export default {
           id: row.id
         }
       })
-    }
+    },
+    goLink(index, row){
+
+      window.open(row.url)
+
+    },
+
   }
 }
 </script>
